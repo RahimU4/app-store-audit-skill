@@ -15,6 +15,30 @@
 
 ---
 
+## 📸 See It In Action
+
+> Real audit report generated on a Flutter project — no setup, just one prompt.
+
+### 1. The Dashboard View
+*Instant overview of your app's submission readiness across all categories and the 4 Layers of Review.*
+
+<p align="center">
+  <img src="assets/dashboard-view.png" alt="Dashboard View — Category summary and Layer Assessment" width="800" />
+</p>
+
+### 2. The Deep Code Audit
+*Finds exact files, line numbers, and tells you precisely what's wrong and how to fix it.*
+
+<p align="center">
+  <img src="assets/deep-code-audit-1.png" alt="Deep Code Audit — Critical issues with file paths and fix steps" width="800" />
+</p>
+
+<p align="center">
+  <img src="assets/deep-code-audit-2.png" alt="Deep Code Audit — Storage permission and legal link violations" width="800" />
+</p>
+
+---
+
 ## 💡 Why This Exists
 
 Every mobile developer has been there:
