@@ -4,12 +4,23 @@
     <strong>AI-powered pre-submission audit for Apple App Store & Google Play Store</strong>
   </p>
   <p align="center">
-    Catch rejection risks before you submit. Save days of review cycles.
+    Catch rejection risks before you submit. Save days of review cycles.<br/>
+    Works with <b>any</b> mobile framework — Flutter • React Native • Swift • Kotlin • KMP • Jetpack Compose • Java
   </p>
   <p align="center">
     <a href="#quick-start"><img src="https://img.shields.io/badge/Quick_Start-blue?style=for-the-badge" alt="Quick Start" /></a>
     <a href="https://github.com/RahimU4/app-store-audit-skill/stargazers"><img src="https://img.shields.io/github/stars/RahimU4/app-store-audit-skill?style=for-the-badge&color=yellow" alt="Stars" /></a>
     <a href="#license"><img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License" /></a>
+  </p>
+  <p align="center">
+    <img src="https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white" alt="Flutter" />
+    <img src="https://img.shields.io/badge/React_Native-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React Native" />
+    <img src="https://img.shields.io/badge/Swift-FA7343?style=flat-square&logo=swift&logoColor=white" alt="Swift" />
+    <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=flat-square&logo=kotlin&logoColor=white" alt="Kotlin" />
+    <img src="https://img.shields.io/badge/Jetpack_Compose-4285F4?style=flat-square&logo=jetpackcompose&logoColor=white" alt="Jetpack Compose" />
+    <img src="https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white" alt="Java" />
+    <img src="https://img.shields.io/badge/SwiftUI-000000?style=flat-square&logo=swift&logoColor=white" alt="SwiftUI" />
+    <img src="https://img.shields.io/badge/KMP-7F52FF?style=flat-square&logo=kotlin&logoColor=white" alt="KMP" />
   </p>
 </p>
 
@@ -49,6 +60,8 @@ Every mobile developer has been there:
 
 **This skill was born from real rejections.** It's a comprehensive ruleset that teaches AI coding assistants to audit your app *before* you submit — catching the same issues Apple and Google reviewers look for.
 
+> **Framework-agnostic:** App Store and Play Store reviewers don't care if you built with Flutter, React Native, Swift, or Kotlin. A rejection is a rejection. This skill works with **any** mobile framework.
+
 ### What It Catches
 
 | Category | Apple | Google | Examples |
@@ -76,13 +89,59 @@ Every mobile developer has been there:
 
 Copy the `app-store-audit-skill/` folder to your project root:
 
+**Flutter:**
 ```
-your-project/
+your-flutter-project/
 ├── app-store-audit-skill/
 │   ├── README.md          ← You're reading this
 │   └── AUDIT_SKILL.md     ← The audit rules (the AI reads this)
 ├── lib/
 ├── pubspec.yaml
+└── ...
+```
+
+**React Native:**
+```
+your-rn-project/
+├── app-store-audit-skill/
+│   ├── README.md
+│   └── AUDIT_SKILL.md
+├── src/
+├── package.json
+└── ...
+```
+
+**Native iOS (Swift / SwiftUI):**
+```
+your-ios-project/
+├── app-store-audit-skill/
+│   ├── README.md
+│   └── AUDIT_SKILL.md
+├── MyApp/
+├── MyApp.xcodeproj
+└── ...
+```
+
+**Native Android (Kotlin / Java / Jetpack Compose):**
+```
+your-android-project/
+├── app-store-audit-skill/
+│   ├── README.md
+│   └── AUDIT_SKILL.md
+├── app/src/main/
+├── build.gradle.kts
+└── ...
+```
+
+**KMP (Kotlin Multiplatform):**
+```
+your-kmp-project/
+├── app-store-audit-skill/
+│   ├── README.md
+│   └── AUDIT_SKILL.md
+├── shared/
+├── androidApp/
+├── iosApp/
 └── ...
 ```
 
@@ -150,13 +209,24 @@ Fix the flagged issues, then submit with confidence! 🚀
 
 ---
 
-## 🎯 Supported Platforms
+## 🎯 Supported Platforms & Frameworks
 
 | Platform | Supported | Guidelines Covered |
 |----------|:---------:|-------------------|
 | 🍎 Apple App Store | ✅ | Review Guidelines 2.x – 5.x, HIG, Metadata |
 | 🤖 Google Play Store | ✅ | Developer Program Policy, Billing, Data Safety |
 | 🌐 Web (PWA) | 🔜 | Coming soon |
+
+| Framework | Supported | Auto-detected |
+|-----------|:---------:|:-------------:|
+| Flutter (Dart) | ✅ | ✅ |
+| React Native (JS/TS) | ✅ | ✅ |
+| Native iOS (Swift / SwiftUI) | ✅ | ✅ |
+| Native Android (Kotlin / Jetpack Compose) | ✅ | ✅ |
+| Native Android (Java) | ✅ | ✅ |
+| Kotlin Multiplatform (KMP) | ✅ | ✅ |
+| Xamarin / .NET MAUI | ✅ | ✅ |
+| Ionic / Capacitor | ✅ | — |
 
 ---
 
@@ -213,9 +283,11 @@ GOOG-BILL-003   → Google, Billing, Rule #003
 ## 📊 Stats
 
 - **95+** audit rules
-- **2** platforms covered (Apple + Google)
+- **2** store platforms covered (Apple + Google)
+- **7+** frameworks supported (Flutter, React Native, Swift, Kotlin, KMP, Java, Compose)
 - **21** categories (including 10 advanced edge-cases)
 - **4 Layers of Rejection** framework
+- **Auto-detection** of project framework by AI
 - **Built from real rejections** — not just docs
 
 ---

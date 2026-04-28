@@ -1,7 +1,8 @@
-# App Store Audit Skill — Rule Engine v1.1.0
+# App Store Audit Skill — Rule Engine v2.0.0
 
 > This file is read by AI coding assistants to audit mobile apps before Apple App Store & Google Play Store submission.
-> **50+ rules** across **15 categories** — based on official guidelines and real rejection cases.
+> **95+ rules** across **21 categories** — works with **any** mobile framework.
+> Flutter • React Native • Swift/SwiftUI • Kotlin/Jetpack Compose • KMP • Java • Xamarin • .NET MAUI
 
 ---
 
@@ -508,29 +509,143 @@ Apple & Google reviewers test from different devices, regions, and accounts. If 
 
 # 🤖 AI AGENT AUDIT INSTRUCTIONS
 
+### Step 0: Detect Framework
+Before scanning, identify which framework the project uses:
+
+| Indicator File | Framework |
+|---|---|
+| `pubspec.yaml` | **Flutter** (Dart) |
+| `package.json` + `react-native` dep | **React Native** (JS/TS) |
+| `*.xcodeproj` + `*.swift` files only | **Native iOS** (Swift / SwiftUI) |
+| `build.gradle.kts` + `*.kt` + no `pubspec.yaml` | **Native Android** (Kotlin / Jetpack Compose) |
+| `build.gradle` + `*.java` files | **Native Android** (Java) |
+| `shared/` + `androidApp/` + `iosApp/` | **Kotlin Multiplatform (KMP)** |
+| `*.csproj` + `*.xaml` | **Xamarin / .NET MAUI** |
+
 ### Step 1: Identify App Type
 - Free, paid, or subscription?
 - Has login/accounts?
 - Streams media?
 - Has user-generated content?
-- Which platforms?
+- Which platforms? (iOS / Android / Both)
 - Requires external hardware?
 - Has ads?
+- **Which framework?** (detected in Step 0)
 
 ### Step 2: Scan These Files
+
+Scan the files relevant to the detected framework. Always scan the **Common** and **Platform Config** files, then scan the framework-specific source files.
+
+#### Common (All Frameworks)
 ```
-pubspec.yaml               → Version, dependencies
-ios/Info.plist              → Permissions, encryption
-ios/Runner.xcodeproj/       → SUPPORTED_PLATFORMS, DEVICE_FAMILY
-android/app/build.gradle    → targetSdk, versionCode
-android/AndroidManifest.xml → Permissions, queries, debuggable
-lib/**/*paywall*            → Subscription UI (CRITICAL)
-lib/**/*subscription*       → Payment logic
-lib/**/*purchase*           → IAP integration
-lib/**/*profile*            → Version display, legal links, account deletion
-lib/**/*constants*          → API keys, URLs, flags
-lib/**/*notification*       → Push notification handling
-lib/**/*auth*               → Login/account management
+ios/Info.plist                    → Permissions, encryption flags
+ios/**/Info.plist                  → (may be nested differently per framework)
+android/**/AndroidManifest.xml    → Permissions, queries, debuggable flag
+```
+
+#### Platform Config by Framework
+
+**Flutter:**
+```
+pubspec.yaml                      → Version, dependencies
+ios/Runner.xcodeproj/             → SUPPORTED_PLATFORMS, DEVICE_FAMILY
+android/app/build.gradle           → targetSdk, versionCode, arm64
+```
+
+**React Native:**
+```
+package.json                      → Version, dependencies
+ios/*.xcodeproj/                  → Build settings, device family
+android/app/build.gradle           → targetSdk, versionCode, arm64
+app.json / app.config.js          → Expo config (if using Expo)
+```
+
+**Native iOS (Swift / SwiftUI):**
+```
+*.xcodeproj / *.xcworkspace       → Build settings, signing
+Podfile / Package.swift           → Dependencies
+*.plist                           → All Info.plist variants
+*.entitlements                    → Capabilities (IAP, push, etc.)
+```
+
+**Native Android (Kotlin / Java / Jetpack Compose):**
+```
+build.gradle / build.gradle.kts   → targetSdk, versionCode, dependencies
+gradle.properties                 → Build config flags
+proguard-rules.pro                → Obfuscation rules
+```
+
+**Kotlin Multiplatform (KMP):**
+```
+shared/build.gradle.kts           → Shared module config
+androidApp/build.gradle.kts       → Android target config
+iosApp/*.xcodeproj                → iOS target config
+gradle.properties                 → Build flags
+```
+
+**Xamarin / .NET MAUI:**
+```
+*.csproj                          → Project config, target frameworks
+Properties/AndroidManifest.xml    → Android permissions
+Platforms/iOS/Info.plist          → iOS permissions
+```
+
+#### Source Files to Search (by framework)
+
+**Flutter (Dart):**
+```
+lib/**/*paywall*                  → Subscription UI (CRITICAL)
+lib/**/*subscription*             → Payment logic
+lib/**/*purchase*                 → IAP integration
+lib/**/*profile*                  → Version display, legal links, account deletion
+lib/**/*constants*                → API keys, URLs, flags
+lib/**/*notification*             → Push notification handling
+lib/**/*auth*                     → Login/account management
+```
+
+**React Native (JS/TS):**
+```
+src/**/*paywall*                  → Subscription UI (CRITICAL)
+src/**/*subscription*             → Payment logic
+src/**/*purchase*                 → IAP integration (react-native-iap)
+src/**/*profile*                  → Version display, legal links
+src/**/*config*                   → API keys, URLs, flags
+src/**/*notification*             → Push notifications (FCM, APNs)
+src/**/*auth*                     → Login/account management
+.env / .env.production            → Environment variables / secrets
+```
+
+**Native iOS (Swift / SwiftUI):**
+```
+**/*Paywall*                      → Subscription UI (CRITICAL)
+**/*StoreKit* / **/*Purchase*     → IAP / StoreKit 2 integration
+**/*Subscription*                 → Payment logic
+**/*Profile*                      → Version display, legal links
+**/*Constants* / **/*Config*      → API keys, URLs, flags
+**/*Notification*                 → Push notification handling
+**/*Auth* / **/*Login*            → Login/account management
+**/*AppDelegate*                  → App lifecycle, permissions
+```
+
+**Native Android (Kotlin / Java / Jetpack Compose):**
+```
+**/*Paywall*                      → Subscription UI (CRITICAL)
+**/*Billing* / **/*Purchase*      → Google Play Billing integration
+**/*Subscription*                 → Payment logic
+**/*Profile*                      → Version display, legal links
+**/*Constants* / **/*Config*      → API keys, URLs, flags
+**/*Notification* / **/*FCM*      → Push notification handling
+**/*Auth* / **/*Login*            → Login/account management
+**/*Application.kt / .java*      → App lifecycle
+```
+
+**KMP (Kotlin Multiplatform):**
+```
+shared/src/commonMain/**          → Shared business logic
+shared/src/androidMain/**         → Android-specific code
+shared/src/iosMain/**             → iOS-specific code
+androidApp/src/**                 → Android app layer
+iosApp/iosApp/**                  → iOS app layer
 ```
 
 ### Step 3: Check Every Rule
@@ -606,13 +721,13 @@ Use this EXACT format:
 4. [Any additional steps — rebuild, update config, etc.]
 
 **Before (problematic):**
-```dart
-// Show the code that causes the issue
+```
+// Show the code that causes the issue (use the project's language)
 ```
 
 **After (fixed):**
-```dart
-// Show the corrected code
+```
+// Show the corrected code (use the project's language)
 ```
 
 ---
@@ -768,6 +883,13 @@ Layer Assessment:
 ---
 
 ## Changelog
+
+### v2.0.0 (April 2026)
+- **🌐 Multi-platform support** — Now works with Flutter, React Native, Swift, Kotlin, Jetpack Compose, KMP, Java, Xamarin, .NET MAUI
+- Added framework auto-detection (Step 0) for AI agents
+- Added platform-specific file scan paths for all major frameworks
+- Code examples are now language-agnostic
+- **Total: 95+ rules across 21 categories, all frameworks**
 
 ### v1.2.0 (April 2026)
 - Added 25+ advanced edge-case rules (Sections 12–21)
